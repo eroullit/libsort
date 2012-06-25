@@ -82,6 +82,14 @@ int do_int_sort(int * numbers, int len, char * name, void * func,
         quicksort_onemalloc(numbers, 0, len-1, sizeof(int), comp, NULL);
         gettimeofday(&end, NULL);
     }
+    else if(func == &qsort)
+    {
+        gettimeofday(&start, NULL);
+        qsort(numbers, len, sizeof(int), comp);
+        gettimeofday(&end, NULL);
+    }
+
+
     printtime(&start, &end);
 }
 
@@ -181,6 +189,19 @@ int main(int argc, char ** argv)
         /* verify the list is sorted descending */
         do_int_sort(numbers, len, "quicksort_onemalloc",
                     &quicksort_onemalloc, int_compare_desc);
+        verify_sort(numbers, len, 0);
+    }
+
+    if(algo == NULL || strcmp(algo, "qsort") == 0)
+    {
+	/* verify the list is sorted descending */
+        do_int_sort(numbers, len, "qsort glibc",
+                    &qsort, int_compare_asc);
+        verify_sort(numbers, len, 1);
+
+        /* verify the list is sorted descending */
+        do_int_sort(numbers, len, "qsort glibc",
+                    &qsort, int_compare_desc);
         verify_sort(numbers, len, 0);
     }
 
