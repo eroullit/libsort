@@ -9,19 +9,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <sys/time.h>
+#include <inttypes.h>
 #include "sort.h"
 
 /* printtime - display the difference between
  * two timestamps in sec, usec */
 void printtime(struct timeval * start, struct timeval * end)
 {
-    unsigned long long    diff_us;
-
-    diff_us =
-        (((unsigned long long)end->tv_sec)*1000000 + end->tv_usec) -
-        (((unsigned long long)start->tv_sec)*1000000 + start->tv_usec);
-
-    printf("%llu s, %06llu us\n", diff_us/1000000, diff_us%1000000);
+    struct timeval diff;
+    timersub(end, start, &diff);
+    printf("%"PRIu64" s, %"PRIu64" us\n", diff.tv_sec, diff.tv_usec);
 }
 
 /* verify the list is sorted (asc or desc) */
