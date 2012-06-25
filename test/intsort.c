@@ -121,8 +121,7 @@ int main(int argc, char ** argv)
     if(!numbers)
         return 1;
 
-    for(i = 0; i < len; i++)
-        numbers[i] = rand();
+    initstate(time(NULL), (char *) numbers, sizeof(int)*len);
 
     if(algo == NULL || strcmp(algo, "bubble") == 0)
     {
